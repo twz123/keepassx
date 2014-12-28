@@ -63,6 +63,7 @@ private Q_SLOTS:
     void saveToolbarState(bool value);
     void rememberOpenDatabases(const QString& filePath);
     void applySettingsChanges();
+    void lockDatabases();
     void trayIconTriggered(QSystemTrayIcon::ActivationReason reason);
     void toggleWindow();
 

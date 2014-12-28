@@ -20,6 +20,7 @@
 
 #include <QCloseEvent>
 #include <QShortcut>
+#include <QMessageBox>
 
 #include "autotype/AutoType.h"
 #include "core/Config.h"
@@ -161,7 +162,7 @@ MainWindow::MainWindow()
             SLOT(changeDatabaseSettings()));
     connect(m_ui->actionImportKeePass1, SIGNAL(triggered()), m_ui->tabWidget,
             SLOT(importKeePass1Database()));
-    connect(m_ui->actionLockDatabases, SIGNAL(triggered()), m_ui->tabWidget,
+    connect(m_ui->actionLockDatabases, SIGNAL(triggered()), this,
             SLOT(lockDatabases()));
     connect(m_ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
 
@@ -581,4 +582,16 @@ bool MainWindow::isTrayIconEnabled() const
 {
     return config()->get("GUI/ShowTrayIcon").toBool()
             && QSystemTrayIcon::isSystemTrayAvailable();
+}
+
+void MainWindow::lockDatabases()
+{
+    if (!config()->get("AskForConfirmationBeforeLockingDatabases").toBool()
+        || QMessageBox::question(this,
+                              tr("Lock databases?"),
+                              tr("Do you really want to lock all open databases?"),
+                              QMessageBox::Yes | QMessageBox::No,
+                              QMessageBox::Yes) == QMessageBox::Yes) {
+        m_ui->tabWidget->lockDatabases();
+    }
 }
