@@ -169,6 +169,7 @@ target_link_libraries(${PROGNAME}
                       Qt5::Core
                       Qt5::Concurrent
                       Qt5::Widgets
+                      Qt5::Network
                       ${GCRYPT_LIBRARIES}
                       ${ZLIB_LIBRARIES})
 
